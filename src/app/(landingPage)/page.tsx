@@ -1,4 +1,4 @@
-import { ModeToggle } from "@/components/darkMode/ModeToggle";
+import { ModeToggle } from "@/components/theme/ModeToggle";
 
 export default function LandingPage(){
   return (

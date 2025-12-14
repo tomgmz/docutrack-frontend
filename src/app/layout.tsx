@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Didact_Gothic } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/theme/theme-provider";
-
+import { ThemeProvider } from "@/components/theme/theme-provider";
 
 const didact = Didact_Gothic({
   subsets: ['latin'],

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getAccessToken, setAccessToken } from "./token"; // <- import memory token
+import { getAccessToken, setAccessToken } from "./token";
 
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000",
@@ -9,38 +9,33 @@ export const api = axios.create({
   },
 });
 
-// Attach access token from memory
+// 1. Request: Attach the current token from memory
 api.interceptors.request.use((config) => {
-  const token = getAccessToken(); // <- memory-only
+  const token = getAccessToken();
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
 
-// Refresh access token if expired
+// 2. Response: Monitor for new tokens sent by the backend middleware
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    // Look for the 'x-access-token' header you set in deserializeUser.ts
+    const newAccessToken = response.headers["x-access-token"];
+
+    if (newAccessToken) {
+      setAccessToken(newAccessToken);
+      console.log("[AUTH] Access token silently refreshed by server");
+    }
+
+    return response;
+  },
   async (error) => {
-    const originalRequest = error.config;
-
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-
-      try {
-        const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"}/api/sessions/reIssueToken`,
-          {}, 
-          { withCredentials: true } // send HttpOnly refresh cookie automatically
-        );
-
-        // Store new access token in memory
-        setAccessToken(res.data.accessToken);
-
-        originalRequest.headers["Authorization"] = `Bearer ${res.data.accessToken}`;
-        return axios(originalRequest); 
-      } catch (refreshError) {
-        setAccessToken(null); // clear memory
-        return Promise.reject(refreshError);
-      }
+    // If the server returns 401, it means BOTH the access token 
+    // and the refresh token (cookie/header) are expired or invalid.
+    if (error.response?.status === 401) {
+      setAccessToken(null);
+      // Optional: Redirect to login or show a "Session Expired" modal
+      // window.location.href = "/login";
     }
 
     return Promise.reject(error);

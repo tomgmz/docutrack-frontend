@@ -1,5 +1,3 @@
-"use client";
-
 import type { Metadata } from "next";
 import { Didact_Gothic } from "next/font/google";
 import "./globals.css";

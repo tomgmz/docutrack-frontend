@@ -9,35 +9,62 @@ export const api = axios.create({
   },
 });
 
-// 1. Request: Attach the current token from memory
+// Attach memory-only access token to requests
 api.interceptors.request.use((config) => {
   const token = getAccessToken();
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
 
-// 2. Response: Monitor for new tokens sent by the backend middleware
+// Handle responses and auto-refresh
 api.interceptors.response.use(
   (response) => {
-    // Look for the 'x-access-token' header you set in deserializeUser.ts
+    // Update access token if backend sends a new one
     const newAccessToken = response.headers["x-access-token"];
-
     if (newAccessToken) {
       setAccessToken(newAccessToken);
-      console.log("[AUTH] Access token silently refreshed by server");
+      console.log("[AUTH] Access token refreshed");
     }
-
     return response;
   },
   async (error) => {
-    // If the server returns 401, it means BOTH the access token 
-    // and the refresh token (cookie/header) are expired or invalid.
-    if (error.response?.status === 401) {
-      setAccessToken(null);
-      // Optional: Redirect to login or show a "Session Expired" modal
-      // window.location.href = "/login";
+    const originalRequest = error.config;
+
+    // Prevent infinite loop
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      try {
+        // Try refreshing access token using HttpOnly refresh cookie
+        const res = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"}/api/sessions/refresh`,
+          {},
+          { withCredentials: true }
+        );
+
+        const newAccessToken = res.data.accessToken;
+        setAccessToken(newAccessToken);
+
+        // Retry the original request
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        return api(originalRequest);
+      } catch (_err) {
+        setAccessToken(null);
+        // optional: redirect to login
+        // window.location.href = "/login";
+      }
     }
 
     return Promise.reject(error);
   }
 );
+
+// Optional: helper to refresh access token on page load
+export const refreshAccessTokenOnLoad = async () => {
+  try {
+    const res = await api.post("/api/sessions/refresh");
+    setAccessToken(res.data.accessToken);
+    console.log("[AUTH] Access token restored on page load");
+  } catch {
+    setAccessToken(null);
+  }
+};

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Didact_Gothic } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme/theme-provider";
+import { AppThemeProvider } from "@/components/theme/theme-provider";
 
 const didact = Didact_Gothic({
   subsets: ['latin'],
@@ -17,22 +17,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${didact.variable} antialiased`}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem={true}
-          disableTransitionOnChange={true}
-        >
+      <body className={`${didact.variable} antialiased`}>
+        <AppThemeProvider>
           {children}
-        </ThemeProvider>
+        </AppThemeProvider>
       </body>
     </html>
   );

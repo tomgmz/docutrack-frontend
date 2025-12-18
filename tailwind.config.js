@@ -13,9 +13,10 @@ const tailwindConfig = {
     extend: {
       fontFamily: {
         didact: ["Didact Gothic", "sans-serif"],
+        league: ["League Spartan", "sans-serif"],
       },
       colors: {
-        
+        bgDark: ["#121212"],
       },
     },
   },

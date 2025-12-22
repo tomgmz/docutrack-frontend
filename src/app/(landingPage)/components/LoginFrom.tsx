@@ -1,5 +1,6 @@
 "use client"
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button, TextField } from "@mui/material";
 import { api } from "@/lib/api";
 import { setAccessToken } from "@/lib/token"; // memory-only access token
@@ -23,6 +24,8 @@ const textfieldStyle = {
 };
 
 export default function LoginForm() {
+  const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -38,6 +41,7 @@ export default function LoginForm() {
       // Store access token in memory (no localStorage/sessionStorage)
       setAccessToken(res.data.accessToken);
 
+      router.replace("/home");
       alert("Login successful!");
     } catch (err: any) {
       console.error(err);

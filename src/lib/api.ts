@@ -36,7 +36,7 @@ api.interceptors.response.use(
       try {
         // Try refreshing access token using HttpOnly refresh cookie
         const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"}/api/sessions/refresh`,
+          `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"}/api/sessions/userSession`,
           {},
           { withCredentials: true }
         );
@@ -61,7 +61,7 @@ api.interceptors.response.use(
 // Optional: helper to refresh access token on page load
 export const refreshAccessTokenOnLoad = async () => {
   try {
-    const res = await api.post("/api/sessions/refresh");
+    const res = await api.get("/api/sessions/userSession");
     setAccessToken(res.data.accessToken);
     console.log("[AUTH] Access token restored on page load");
   } catch {

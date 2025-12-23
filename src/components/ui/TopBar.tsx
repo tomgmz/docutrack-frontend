@@ -1,16 +1,8 @@
 "use client";
 
-import React, { ReactNode } from "react";
-import {
-  AppBar,
-  Toolbar,
-  Box,
-  IconButton,
-  Typography,
-  Skeleton,
-} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import { Skeleton } from "@mui/material";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import React from "react";
 
 interface User {
   firstName?: string;
@@ -19,83 +11,50 @@ interface User {
 
 interface TopBarProps {
   drawerWidth: number;
-  rightDrawerWidth?: number;
-  leftContent?: ReactNode;
-  centerContent?: ReactNode;
-  rightContent?: ReactNode;
-  onMobileMenuClick?: () => void;
   user?: User;
   isLoading?: boolean;
+  centerContent: React.ReactNode;
 }
 
 export default function TopBar({
   drawerWidth,
-  rightDrawerWidth = 0,
-  leftContent,
-  centerContent,
-  rightContent,
-  onMobileMenuClick,
   user,
   isLoading = false,
+  centerContent,
 }: TopBarProps) {
-  const getInitials = (firstName?: string, lastName?: string): string => {
-    const firstInitial = firstName ? firstName[0] : "";
-    const lastInitial = lastName ? lastName[0] : "";
-    return `${firstInitial}${lastInitial}`.toUpperCase();
-  };
+  const initials = `${user?.firstName?.[0] || ""}${user?.lastName?.[0] || ""}`;
+  const NOTCH_BG = "#E1E7EF";
+  const CURVE_RADIUS = "24px";
 
   return (
-    <AppBar
-      position="fixed"
-      elevation={0}
-      sx={{
-        width: {
-          xs: "100%",
-          sm: `calc(100% - ${drawerWidth}px - ${rightDrawerWidth}px)`,
-        },
-        ml: { xs: 0, sm: `${drawerWidth}px` },
-        mr: { xs: 0, sm: `${rightDrawerWidth}px` },
-        borderBottom: "1px solid #e0e0e0",
-        bgcolor: "#F2F6FB",
-      }}
+    <div
+      className="fixed top-0 right-0 z-[1200] flex h-20 items-end bg-transparent pointer-events-none"
+      style={{ left: drawerWidth }}
     >
-      <Toolbar
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          pl: 2,
-          pr: { xs: 2, sm: 3 },
-        }}
+      <div
+        className={`
+          relative flex h-15 w-[500px] items-center px-6 pointer-events-auto
+          rounded-t-[24px] bg-[#E1E7EF]
+          after:absolute after:bottom-0 after:-right-[24px] after:h-[24px] after:w-[24px] after:content-['']
+          after:[background:radial-gradient(circle_at_100%_0,transparent_24px,#E1E7EF_24px)]
+        `}
       >
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <IconButton
-            color="default"
-            edge="start"
-            sx={{ display: { sm: "none" } }}
-            onClick={onMobileMenuClick}
-          >
-            <MenuIcon />
-          </IconButton>
-          {leftContent}
-        </Box>
+        {centerContent}
+      </div>
 
-        <Box>{centerContent}</Box>
-
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          {rightContent}
-          {isLoading ? (
-            <Skeleton variant="circular" width={40} height={40} />
-          ) : (
-            user && (
-              <Avatar>
-                <AvatarFallback className="bg-[#C20002] text-white">
-                  {getInitials(user.firstName, user.lastName)}
-                </AvatarFallback>
-              </Avatar>
-            )
-          )}
-        </Box>
-      </Toolbar>
-    </AppBar>
+      <div className="flex h-full flex-1 items-center justify-end pb-2 pr-6 pointer-events-auto">
+        {isLoading ? (
+          <Skeleton variant="circular" width={40} height={40} />
+        ) : (
+          user && (
+            <Avatar>
+              <AvatarFallback className="bg-[#0F172A] text-white">
+                {initials}
+              </AvatarFallback>
+            </Avatar>
+          )
+        )}
+      </div>
+    </div>
   );
 }

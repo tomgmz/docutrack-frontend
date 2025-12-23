@@ -21,7 +21,6 @@ export default function LandingPage() {
             <span className="text-gray-500 text-sm font-medium">Continue with</span>
             <div className="flex-1 h-px bg-gray-300" />
           </div>
-
           <GoogleButton />
         </div>
       </main>

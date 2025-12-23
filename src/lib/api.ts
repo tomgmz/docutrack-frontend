@@ -36,7 +36,7 @@ api.interceptors.response.use(
       try {
         // Try refreshing access token using HttpOnly refresh cookie
         const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"}/api/sessions/userSession`,
+          `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"}/api/sessions/refresh`,
           {},
           { withCredentials: true }
         );

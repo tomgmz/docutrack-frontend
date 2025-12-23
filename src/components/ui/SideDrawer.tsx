@@ -93,7 +93,7 @@ export default function SideDrawer({
   };
 
   const drawerContent = (
-    <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
+    <Box sx={{ display: "flex", flexDirection: "column", height: "100%", bgcolor: "#F2F6FB" }}>
       <Toolbar sx={{ flexDirection: "column", alignItems: "flex-start", py: 2, pl: 2 }}>
         <div className="flex items-center gap-6">
           <Image
@@ -126,7 +126,7 @@ export default function SideDrawer({
           OSMUN
         </Typography> */}
 
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2, mt: 6 }}>
           {/* {isLoading ? (
             <Skeleton variant="circular" width={40} height={40} />
           ) : (
@@ -283,6 +283,7 @@ export default function SideDrawer({
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
+            borderRight: "none",
           },
         }}
         anchor="left"

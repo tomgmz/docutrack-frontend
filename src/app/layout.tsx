@@ -3,6 +3,7 @@ import { Didact_Gothic } from "next/font/google";
 import "./globals.css";
 // import { AppThemeProvider } from "@/components/theme/theme-provider";
 import { AppWrapper } from "@/components/AppWrapper";
+import { ToastProvider } from "@/components/ToastProvider";
 
 const didact = Didact_Gothic({
   subsets: ['latin'],
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning>
       <body className={`${didact.variable} antialiased`}>
         {/* <AppThemeProvider> */}
+          <ToastProvider />
           <AppWrapper>{children}</AppWrapper>
         {/* </AppThemeProvider> */}
       </body>

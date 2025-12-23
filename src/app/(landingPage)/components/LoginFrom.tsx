@@ -3,7 +3,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button, TextField } from "@mui/material";
 import { api } from "@/lib/api";
-import { setAccessToken } from "@/lib/token"; // memory-only access token
+import { setAccessToken } from "@/lib/token";
+import toast from "@/lib/toastMessage"
 
 const textfieldStyle = {
   fontFamily: "Didact, sans-serif",
@@ -38,14 +39,12 @@ export default function LoginForm() {
     try {
       const res = await api.post("/api/sessions/userSession", { email, password });
 
-      // Store access token in memory (no localStorage/sessionStorage)
       setAccessToken(res.data.accessToken);
 
+      toast.success("Login successful!");
       router.replace("/home");
-      alert("Login successful!");
     } catch (err: any) {
-      console.error(err);
-      setError(err.response?.data || "Login failed");
+      toast.error(err.response?.data || "Login failed");
     } finally {
       setLoading(false);
     }

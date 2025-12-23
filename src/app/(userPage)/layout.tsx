@@ -7,6 +7,7 @@ import SideDrawer from '@/components/ui/SideDrawer';
 import { userMenu } from './components/menu';
 import { Typography } from '@mui/material';
 import { usePathname } from 'next/navigation';
+import FolderSearch from '@/components/ui/TopbarSearch';
 
 const drawerWidth = 300;
 
@@ -30,19 +31,20 @@ export default function UserLayout({
     <TopBar
       user={user}
       drawerWidth={isMobile ? 0 : drawerWidth}
-      leftContent={
-            <Typography
-              variant="h6"
-              sx={{
-                fontFamily: "'Poppins', sans-serif",
-                fontWeight: 500,
-                fontSize: { xs: "1rem", sm: "1rem", md: "1.2rem" },
-                color: "#333333",
-              }}
-            >
-              {activeMenuItem ? activeMenuItem.label : "Dashboard"}
-            </Typography>
-          }
+      // leftContent={
+      //       <Typography
+      //         variant="h6"
+      //         sx={{
+      //           fontFamily: "'Poppins', sans-serif",
+      //           fontWeight: 500,
+      //           fontSize: { xs: "1rem", sm: "1rem", md: "1.2rem" },
+      //           color: "#333333",
+      //         }}
+      //       >
+      //         {activeMenuItem ? activeMenuItem.label : "Dashboard"}
+      //       </Typography>
+      //     }
+      centerContent={<FolderSearch/>}
     />
 
     <SideDrawer
@@ -51,7 +53,7 @@ export default function UserLayout({
       variant="permanent"
     />
 
-    <main>
+    <main className="flex-1 pt-[80px] h-screen overflow-hidden">
       {children}
     </main>
   </div>

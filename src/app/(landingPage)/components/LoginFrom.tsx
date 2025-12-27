@@ -2,9 +2,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button, TextField } from "@mui/material";
-import { api } from "@/lib/api";
-import { setAccessToken } from "@/lib/token";
-import toast from "@/lib/toastMessage"
+import { login } from "@/lib/api";
+import toast from "@/lib/toastMessage";
 
 const textfieldStyle = {
   fontFamily: "Didact, sans-serif",
@@ -34,14 +33,9 @@ export default function LoginForm() {
 
   const handleLogin = async () => {
     setLoading(true);
-    setError("");
 
     try {
-      const res = await api.post("/api/sessions/userSession", { email, password });
-
-      setAccessToken(res.data.accessToken);
-
-      toast.success("Login successful!");
+      await login({ email, password });
       router.replace("/home");
     } catch (err: any) {
       toast.error(err.response?.data || "Login failed");

@@ -25,7 +25,7 @@ import {
   Skeleton,
 } from "@mui/material";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { api } from "@/lib/api";
+import { signout } from "@/lib/api";
 
 export interface MenuItem {
   label: string;
@@ -69,17 +69,9 @@ export default function SideDrawer({
   const [modalOpen, setModalOpen] = useState(false);
   const [logoutConfirmOpen, setLogoutConfirmOpen] = useState(false);
 
-  const API_BASE = process.env.NEXT_PUBLIC_API_URL;
-
   const handleLogout = async () => {
     try {
-      await api.delete(`/api/sessions/userSession`, {
-        withCredentials: true,
-      });
-
-      // Optional: clear any client-side state here
-      localStorage.clear();
-
+      await signout();
       router.replace("/");
     } catch (error) {
       console.error("Logout failed:", error);

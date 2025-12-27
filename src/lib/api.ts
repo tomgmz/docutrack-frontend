@@ -1,5 +1,4 @@
 import axios from "axios";
-import { getAccessToken, setAccessToken } from "./token";
 
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000",
@@ -9,62 +8,24 @@ export const api = axios.create({
   },
 });
 
-// Attach memory-only access token to requests
-api.interceptors.request.use((config) => {
-  const token = getAccessToken();
-  if (token) config.headers.Authorization = `Bearer ${token}`;
-  return config;
-});
+export const signup = (payload: {
+  email: string;
+  password: string;
+  username: string;
+  first_name: string;
+  last_name: string;
+  middle_name?: string;
+}) => {
+  return api.post("/api/signup", payload);
+};
 
-// Handle responses and auto-refresh
-api.interceptors.response.use(
-  (response) => {
-    // Update access token if backend sends a new one
-    const newAccessToken = response.headers["x-access-token"];
-    if (newAccessToken) {
-      setAccessToken(newAccessToken);
-      console.log("[AUTH] Access token refreshed");
-    }
-    return response;
-  },
-  async (error) => {
-    const originalRequest = error.config;
+export const login = (payload: {
+  email: string;
+  password: string;
+}) => {
+  return api.post("/api/login", payload);
+};
 
-    // Prevent infinite loop
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-      try {
-        // Try refreshing access token using HttpOnly refresh cookie
-        const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"}/api/sessions/refresh`,
-          {},
-          { withCredentials: true }
-        );
-
-        const newAccessToken = res.data.accessToken;
-        setAccessToken(newAccessToken);
-
-        // Retry the original request
-        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-        return api(originalRequest);
-      } catch (_err) {
-        setAccessToken(null);
-        // optional: redirect to login
-        // window.location.href = "/login";
-      }
-    }
-
-    return Promise.reject(error);
-  }
-);
-
-// Optional: helper to refresh access token on page load
-export const refreshAccessTokenOnLoad = async () => {
-  try {
-    const res = await api.get("/api/sessions/userSession");
-    setAccessToken(res.data.accessToken);
-    console.log("[AUTH] Access token restored on page load");
-  } catch {
-    setAccessToken(null);
-  }
+export const signout = () => {
+  return api.post("/api/signout");
 };

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Didact_Gothic } from "next/font/google";
 import "./globals.css";
 // import { AppThemeProvider } from "@/components/theme/theme-provider";
-import { AppWrapper } from "@/components/AppWrapper";
 import { ToastProvider } from "@/components/ToastProvider";
 
 const didact = Didact_Gothic({
@@ -23,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${didact.variable} antialiased`}>
         {/* <AppThemeProvider> */}
           <ToastProvider />
-          <AppWrapper>{children}</AppWrapper>
+          {children}
         {/* </AppThemeProvider> */}
       </body>
     </html>

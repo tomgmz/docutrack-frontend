@@ -7,15 +7,13 @@ export default function AuthCallback() {
   const router = useRouter();
 
   useEffect(() => {
-    // Get hash fragment
-    const hash = window.location.hash.substring(1); // remove #
+    const hash = window.location.hash.substring(1);
     const params = new URLSearchParams(hash);
     const accessToken = params.get("access_token");
 
     if (accessToken) {
-      // Store token securely (e.g., in HttpOnly cookie via backend or localStorage)
       localStorage.setItem("supabase_access_token", accessToken);
-      router.replace("/home"); // redirect to your app
+      router.replace("/home");
     } else {
       console.error("No access token found in callback");
     }

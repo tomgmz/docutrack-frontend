@@ -6,11 +6,12 @@ import { supabase } from "@/lib/supabase";
 
 export default function ConfirmEmail() {
   const router = useRouter();
-  const searchParams = new URLSearchParams(window.location.search);
-  const token_hash = searchParams.get("token_hash");
-  const email = searchParams.get("email");
 
   useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const token_hash = searchParams.get("token_hash");
+    const email = searchParams.get("email");
+
     if (token_hash && email) {
       const confirm = async () => {
         const { error } = await supabase.auth.verifyOtp({
@@ -28,7 +29,7 @@ export default function ConfirmEmail() {
       };
       confirm();
     }
-  }, [token_hash, email]);
+  }, [router]);
 
   return <p>Confirming your email...</p>;
 }

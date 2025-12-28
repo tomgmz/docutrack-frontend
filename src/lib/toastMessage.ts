@@ -29,7 +29,7 @@ const customToast = {
   success,
   info,
   warn,
-  // Note: This wrapper doesn't include the base toast() call,
+  // this wrapper doesn't include the base toast() call,
   // only the specific types.
 };
 

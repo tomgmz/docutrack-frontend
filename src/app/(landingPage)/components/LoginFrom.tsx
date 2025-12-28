@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button, TextField } from "@mui/material";
-import { login } from "@/lib/api";
+import { login } from "@/lib/auth.api";
 import toast from "@/lib/toastMessage";
 
 const textfieldStyle = {

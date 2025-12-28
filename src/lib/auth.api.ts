@@ -29,3 +29,7 @@ export const login = (payload: {
 export const signout = () => {
   return api.post("/api/signout");
 };
+
+export   function handleGoogleLogin() {
+    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/google`;
+  }

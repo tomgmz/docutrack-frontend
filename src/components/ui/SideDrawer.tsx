@@ -25,7 +25,7 @@ import {
   Skeleton,
 } from "@mui/material";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { signout } from "@/lib/api";
+import { signout } from "@/lib/auth.api";
 
 export interface MenuItem {
   label: string;

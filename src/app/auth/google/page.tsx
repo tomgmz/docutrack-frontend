@@ -1,12 +1,11 @@
 "use client";
 
+import { handleGoogleLogin } from "@/lib/auth.api";
+
 import { Button } from "@mui/material";
-import { api } from "@/lib/api";
+import { api } from "@/lib/auth.api";
 
 export default function GoogleButton() {
-  function handleGoogleLogin() {
-    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/google`;
-  }
 
   return (
     <Button

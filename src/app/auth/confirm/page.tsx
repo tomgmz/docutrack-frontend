@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation"; // App Router version
+import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
 export default function ConfirmEmail() {

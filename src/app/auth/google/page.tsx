@@ -1,11 +1,10 @@
 "use client";
 
 import { Button } from "@mui/material";
-import { api } from "@/lib/api"; // your Axios instance pointing to your BFF
+import { api } from "@/lib/api";
 
 export default function GoogleButton() {
   function handleGoogleLogin() {
-    // Replace with your BFF URL
     window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/google`;
   }
 

@@ -11,7 +11,7 @@ import FolderSearch from '@/components/ui/TopbarSearch';
 
 const drawerWidth = 300;
 
-export default function HomeLayout({ 
+export default function AllFilesLayout({ 
   children,
 } : { 
   children: React.ReactNode;
@@ -27,7 +27,7 @@ export default function HomeLayout({
   );
 
   return (
-    <div className="flex min-h-screen bg-[#F2F6FB]">
+    <div className="flex min-h-screen w-full bg-[#F2F6FB]">
     <TopBar
       user={user}
       drawerWidth={isMobile ? 0 : drawerWidth}
@@ -53,7 +53,7 @@ export default function HomeLayout({
       variant="permanent"
     />
 
-    <main className="flex-1 pt-[80px] h-screen overflow-hidden">
+    <main className="flex-1 flex flex-col items-center justify-center pt-[80px] h-screen overflow-hidden">
       {children}
     </main>
   </div>

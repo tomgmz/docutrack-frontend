@@ -2,6 +2,7 @@
 import LoginForm from "./components/LoginFrom";
 import { ModeToggle } from "@/components/theme/ModeToggle";
 import GoogleButton from "../auth/google/page";
+import toast from "@/lib/toastMessage";
 
 export default function LandingPage() {
   return (

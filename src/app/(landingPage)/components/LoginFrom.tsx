@@ -36,9 +36,14 @@ export default function LoginForm() {
 
     try {
       await login({ email, password });
-      router.replace("/home");
+      router.replace("/userHome");
     } catch (err: any) {
-      toast.error(err.response?.data || "Login failed");
+      const message =
+        err.response?.data?.message ||
+        err.response?.data ||
+        "Login failed";
+
+      toast.error(message);
     } finally {
       setLoading(false);
     }

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import TopBar from '@/components/ui/TopBar'
 import { useMediaQuery, useTheme } from '@mui/material';
 import SideDrawer from '@/components/ui/SideDrawer';
-import { userMenu } from '../../components/navigation/menu';
+import { userMenu } from './components/menu';
 import { Typography } from '@mui/material';
 import { usePathname } from 'next/navigation';
 import FolderSearch from '@/components/ui/TopbarSearch';

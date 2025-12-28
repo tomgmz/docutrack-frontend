@@ -18,7 +18,7 @@ export default function StaredPage(){
             p-6
           "
         >
-        <p>LOCKED FILES PAGE</p>
+        <p>STARRED PAGE</p>
       </div>
     </div>
   );

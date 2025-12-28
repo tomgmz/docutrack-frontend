@@ -5,6 +5,7 @@ export default function HomePage() {
     <div className="w-full h-full flex overflow-hidden">
       <div 
         className="
+          flex
           flex-1 
           bg-white 
           mr-[10px] 
@@ -17,7 +18,7 @@ export default function HomePage() {
           p-6
         "
       >
-
+        HOME PAGE
       </div>
     </div>
   );

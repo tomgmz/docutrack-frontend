@@ -9,7 +9,7 @@ export const userMenu = [
    {
     label: "Home",
     icon: <HiHome size={25}/>,
-    path: "/home",
+    path: "/userHome",
     },
     {
     label: "All Files",
@@ -17,9 +17,9 @@ export const userMenu = [
     path: "/allFiles",
     },
     {
-    label: "Stared",
+    label: "Starred",
     icon: <CiStar size={25}/>,
-    path: "/stared",
+    path: "/starred",
     },
     {
     label: "Important",

@@ -2,33 +2,26 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabase";
+import { confirmEmailSignup } from "@/lib/auth.api";
 
 export default function ConfirmEmail() {
   const router = useRouter();
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(window.location.search);
-    const token_hash = searchParams.get("token_hash");
-    const email = searchParams.get("email");
+    const params = new URLSearchParams(window.location.search);
+    const token_hash = params.get("token_hash");
+    const email = params.get("email");
 
-    if (token_hash && email) {
-      const confirm = async () => {
-        const { error } = await supabase.auth.verifyOtp({
-          type: "signup",
-          token: token_hash,
-          email: email,
-        });
+    if (!token_hash || !email) return;
 
-        if (error) {
-          alert("Confirmation failed: " + error.message);
-        } else {
-          alert("Email confirmed! You can now login.");
-          router.push("/");
-        }
-      };
-      confirm();
-    }
+    confirmEmailSignup(token_hash, email).then(({ error }) => {
+      if (error) {
+        alert("Confirmation failed: " + error.message);
+      } else {
+        alert("Email confirmed! You can now login.");
+        router.push("/");
+      }
+    });
   }, [router]);
 
   return <p>Confirming your email...</p>;

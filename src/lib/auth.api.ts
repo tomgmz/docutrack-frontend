@@ -1,4 +1,5 @@
 import axios from "axios";
+import { supabase } from "./supabase";
 
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000",
@@ -30,6 +31,14 @@ export const signout = () => {
   return api.post("/api/signout");
 };
 
-export   function handleGoogleLogin() {
+export function handleGoogleLogin() {
     window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/google`;
-  }
+}
+
+export async function confirmEmailSignup(token_hash: string, email: string) {
+  return supabase.auth.verifyOtp({
+    type: "signup",
+    token: token_hash,
+    email,
+  });
+}

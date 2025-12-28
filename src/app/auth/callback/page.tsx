@@ -13,7 +13,7 @@ export default function AuthCallback() {
 
     if (accessToken) {
       localStorage.setItem("supabase_access_token", accessToken);
-      router.replace("/home");
+      router.replace("/userHome");
     } else {
       console.error("No access token found in callback");
     }

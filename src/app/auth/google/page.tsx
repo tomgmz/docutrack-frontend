@@ -1,9 +1,7 @@
 "use client";
 
-import { handleGoogleLogin } from "@/lib/auth.api";
-
 import { Button } from "@mui/material";
-import { api } from "@/lib/auth.api";
+import { handleGoogleLogin } from "@/lib/auth.api";
 
 export default function GoogleButton() {
 
